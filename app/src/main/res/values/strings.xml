@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Expense Tracker</string>
+    <string name="add_new_expense_type">Add New Expense Type</string>
+    <string name="title">Title</string>
+    <string name="add_payment">Add Payment</string>
+    <string name="expected_to_be_paid">Expected to be paid</string>
+    <string name="on">on</string>
+    <string name="period">Period</string>
+    <string name="day">Day</string>
+    <string name="yearly">yearly</string>
+    <string name="monthly">monthly</string>
+    <string name="weekly">weekly</string>
+    <string name="on_every">on every</string>
+    <string name="enter_title">Enter title</string>
+    <string name="periodic_payment_day">Periodic Payment Day\n(Set 0 for no selection)</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="title_cant_be_empty">Title field cannot be left empty</string>
+    <string name="please_select_a_period">Please select a period, \"None\" if doesn\'t exist.</string>
+    <string name="please_enter_a_payment_day">Please enter a payment day</string>
+    <string name="expense_added_successfully">Expense added successfully!</string>
+    <string name="invalid_period_or_payment_day">Invalid period or payment day. Please enter proper values.</string>
+</resources>
