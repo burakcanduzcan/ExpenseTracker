@@ -62,24 +62,24 @@ class ExpenseOperation(context: Context) {
         return output
     }
 
-    fun updateExpense(e: Expense): Int{
+    fun updateExpense(e: Expense): Int {
         val cv = ContentValues()
         cv.put("title", e.title)
         cv.put("period", e.period)
         cv.put("paymentDay", e.paymentDay)
         open()
-        var output = db!!.update(tableNameExpense, cv, "Id = ?", arrayOf(e.id.toString()))
+        val output = db!!.update(tableNameExpense, cv, "Id = ?", arrayOf(e.id.toString()))
         close()
         return output
     }
 
-    fun updateExpensePayment(ep: ExpensePayment): Int{
+    fun updateExpensePayment(ep: ExpensePayment): Int {
         val cv = ContentValues()
         cv.put("title", ep.title)
         cv.put("amount", ep.amount)
         cv.put("date", ep.date)
         open()
-        var output = db!!.update(tableNameExpensePayment, cv, "Id = ?", arrayOf(ep.id.toString()))
+        val output = db!!.update(tableNameExpensePayment, cv, "Id = ?", arrayOf(ep.id.toString()))
         close()
         return output
     }
@@ -96,12 +96,12 @@ class ExpenseOperation(context: Context) {
         close()
     }
 
-    fun getAllFromTable(table: String) : Cursor {
+    fun getAllFromTable(table: String): Cursor {
         val query = "SELECT * FROM $table"
         return db!!.rawQuery(query, null)
     }
 
-    fun getExpense(title: String) : Cursor {
+    fun getExpense(title: String): Cursor {
         val query = "SELECT * FROM $tableNameExpense WHERE title = ?"
         return db!!.rawQuery(query, arrayOf(title))
     }
@@ -109,10 +109,18 @@ class ExpenseOperation(context: Context) {
     @SuppressLint("Range")
     fun fillListWithExpenses(inputList: ArrayList<Expense>) {
         open()
-        var c: Cursor = getAllFromTable(tableNameExpense)
+        val c: Cursor = getAllFromTable(tableNameExpense)
         if (c.moveToFirst()) {
             do {
-                inputList.add(Expense(c.getString(c.getColumnIndex("title")), c.getString(c.getColumnIndex("period")), c.getInt(0)))
+                inputList.add(
+                    Expense(
+                        c.getString(c.getColumnIndex("title")),
+                        c.getString(c.getColumnIndex("period")),
+                        c.getInt(3)
+                    ).apply {
+                        id = c.getInt(0)
+                    }
+                )
             } while (c.moveToNext())
         }
         close()

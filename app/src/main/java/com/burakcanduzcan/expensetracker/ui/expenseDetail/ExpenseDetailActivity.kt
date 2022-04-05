@@ -14,7 +14,7 @@ class ExpenseDetailActivity : AppCompatActivity() {
         binding = ActivityExpenseDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //var incomingExpense: Expense = intent.getSerializableExtra("expense") as Expense
-        //Toast.makeText(this, incomingExpense.title, Toast.LENGTH_SHORT).show()
+        val incomingTitle = intent.getIntExtra("expenseId", -1)
+        Toast.makeText(this, incomingTitle.toString(), Toast.LENGTH_SHORT).show()
     }
 }

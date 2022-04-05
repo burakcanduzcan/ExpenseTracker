@@ -52,13 +52,13 @@ class ExpenseListActivity : AppCompatActivity() {
 
     private fun addPaymentClick(i: Int) {
         val intent = Intent(this, AddPaymentActivity::class.java)
-        //intent.putExtra("expense", listExpense.get(i))
+        intent.putExtra("expenseId", listExpense[i].id)
         startActivity(intent)
     }
 
     private fun itemClick(i: Int) {
         val intent = Intent(this, ExpenseDetailActivity::class.java)
-        //intent.putExtra("expense", listExpense[i])
+        intent.putExtra("expenseId", listExpense[i].id)
         startActivity(intent)
     }
 

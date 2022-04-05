@@ -12,7 +12,7 @@
     <string name="weekly">weekly</string>
     <string name="on_every">on every</string>
     <string name="enter_title">Enter title</string>
-    <string name="periodic_payment_day">Periodic Payment Day\n(Set 0 for no selection)</string>
+    <string name="enter_payment_day">Enter payment day</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="title_cant_be_empty">Title field cannot be left empty</string>

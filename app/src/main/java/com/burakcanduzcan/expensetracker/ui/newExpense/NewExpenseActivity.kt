@@ -16,7 +16,7 @@ class NewExpenseActivity : AppCompatActivity() {
     lateinit var binding: ActivityNewExpenseBinding
     lateinit var dbOperation: ExpenseOperation
 
-    lateinit var incomingExpense: Expense
+    var incomingExpense: Expense? = null
     var doesItExist: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,30 +31,18 @@ class NewExpenseActivity : AppCompatActivity() {
         binding = ActivityNewExpenseBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val listPreDefinedPeriods = arrayListOf("None", "Yearly", "Monthly", "Weekly")
-        val adp: ArrayAdapter<String> = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, listPreDefinedPeriods)
+        val adp: ArrayAdapter<String> =
+            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, listPreDefinedPeriods)
         binding.spNewExpensePeriod.adapter = adp
+        binding.spNewExpensePeriod.setSelection(0)
     }
 
     private fun initializeEvents() {
         binding.btnNewExpenseSave.setOnClickListener {
             if (doesItExist) {
                 //UPDATE
-            }
-            else {
+            } else {
                 //CREATE
-                areFieldsEmpty()
-                if (isPaymentDayValid(binding.spNewExpensePeriod.selectedItem.toString(), Integer.parseInt(binding.etNewExpensePaymentDay.text.toString()))) {
-                    dbOperation.addExpense(Expense(
-                        binding.etNewExpenseTitle.text.toString(),
-                        binding.spNewExpensePeriod.selectedItem.toString(),
-                        Integer.parseInt(binding.etNewExpensePaymentDay.text.toString())
-                    ))
-                    Toast.makeText(this, R.string.expense_added_successfully, Toast.LENGTH_SHORT).show()
-                    var intent = Intent(this, ExpenseListActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, R.string.invalid_period_or_payment_day, Toast.LENGTH_SHORT).show()
-                }
             }
         }
 
@@ -67,10 +55,11 @@ class NewExpenseActivity : AppCompatActivity() {
     private fun setDefaults() {
         dbOperation = ExpenseOperation(this)
 
-        incomingExpense = intent.getSerializableExtra("expense") as Expense
+        incomingExpense = intent.getSerializableExtra("expense") as Expense?
         doesItExist = incomingExpense != null
 
         if (doesItExist) {
+            /*
             binding.btnNewExpenseRemove.visibility = View.VISIBLE
             binding.etNewExpenseTitle.setText(incomingExpense!!.title)
             when (incomingExpense!!.period) {
@@ -82,12 +71,13 @@ class NewExpenseActivity : AppCompatActivity() {
                 }
             }
             binding.etNewExpensePaymentDay.setText(incomingExpense!!.paymentDay as Int)
+             */
         } else {
             binding.btnNewExpenseRemove.visibility = View.INVISIBLE
         }
     }
 
-    private fun isPaymentDayValid(period: String, paymentDay: Int) : Boolean {
+    private fun isPaymentDayValid(period: String, paymentDay: Int): Boolean {
         when (period) {
             "None" -> {
                 return paymentDay == 0
@@ -102,25 +92,4 @@ class NewExpenseActivity : AppCompatActivity() {
         }
         return false
     }
-
-    private fun areFieldsEmpty() : Boolean {
-        if (binding.etNewExpenseTitle.text.equals("")) {
-            Toast.makeText(this, R.string.title_cant_be_empty, Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        if (!binding.spNewExpensePeriod.isSelected) {
-            Toast.makeText(this, R.string.please_select_a_period, Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-
-        if (binding.etNewExpensePaymentDay.text.equals("")) {
-            Toast.makeText(this, R.string.please_enter_a_payment_day, Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        return true
-    }
-
 }
