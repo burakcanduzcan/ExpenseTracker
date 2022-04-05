@@ -24,15 +24,14 @@ class ExpenseViewHolder(
     fun bindData(e: Expense, context: Context) {
         binding.tvExpenseTitle.setText(e.title)
 
-        //when the expense is expected to be paid periodically
-        if (e.period != null) {
+        if (e.period != "None") {
             var strBuilder = context.getString(R.string.expected_to_be_paid) + " "
             when (e.period) {
                 "Yearly" -> strBuilder += context.getString(R.string.yearly)
                 "Monthly" -> strBuilder += context.getString(R.string.monthly)
                 "Weekly" -> strBuilder += context.getString(R.string.weekly)
                 else -> {
-                    strBuilder += "ERROR"
+                    strBuilder += "ERR0R"
                 }
             }
             binding.tvPaymentPeriod.text = strBuilder
@@ -40,11 +39,8 @@ class ExpenseViewHolder(
             binding.tvPaymentPeriod.text = ""
         }
 
-        //when the expense is expected to be paid periodically and given a payment day
-        //*** to do, calculate payment day
-        //if (e.period != null && e.paymentDay != null) {
-        if (e.paymentDay != null) {
-            var strBuilder = context.getString(R.string.on_every) + " " + e.paymentDay.toString()
+        if (e.paymentDay != 0) {
+            val strBuilder = context.getString(R.string.on_every) + " " + e.paymentDay.toString()
             binding.tvPaymentDay.text = strBuilder
         } else {
             binding.tvPaymentDay.text = ""
