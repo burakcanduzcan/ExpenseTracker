@@ -62,24 +62,13 @@ class ExpenseOperation(context: Context) {
         return output
     }
 
-    fun updateExpense(e: Expense): Int {
+    fun updateExpense(inputId: Int, e: Expense): Int {
         val cv = ContentValues()
         cv.put("title", e.title)
         cv.put("period", e.period)
         cv.put("paymentDay", e.paymentDay)
         open()
-        val output = db!!.update(tableNameExpense, cv, "Id = ?", arrayOf(e.id.toString()))
-        close()
-        return output
-    }
-
-    fun updateExpensePayment(ep: ExpensePayment): Int {
-        val cv = ContentValues()
-        cv.put("title", ep.title)
-        cv.put("amount", ep.amount)
-        cv.put("date", ep.date)
-        open()
-        val output = db!!.update(tableNameExpensePayment, cv, "Id = ?", arrayOf(ep.id.toString()))
+        val output = db!!.update(tableNameExpense, cv, "id = ?", arrayOf(inputId.toString()))
         close()
         return output
     }
@@ -103,11 +92,6 @@ class ExpenseOperation(context: Context) {
 
     fun rawQueryGetExpensePaymentsFromTitle(title: String): Cursor {
         val query = "SELECT * FROM $tableNameExpensePayment WHERE title = ?"
-        return db!!.rawQuery(query, arrayOf(title))
-    }
-
-    fun getExpenseFromTitle(title: String): Cursor {
-        val query = "SELECT * FROM $tableNameExpense WHERE title = ?"
         return db!!.rawQuery(query, arrayOf(title))
     }
 

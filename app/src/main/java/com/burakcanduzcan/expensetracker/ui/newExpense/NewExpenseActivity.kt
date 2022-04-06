@@ -13,12 +13,11 @@ import com.burakcanduzcan.expensetracker.R
 import com.burakcanduzcan.expensetracker.data.ExpenseOperation
 import com.burakcanduzcan.expensetracker.databinding.ActivityNewExpenseBinding
 import com.burakcanduzcan.expensetracker.model.Expense
-import com.burakcanduzcan.expensetracker.ui.expenseDetail.ExpenseDetailActivity
 import com.burakcanduzcan.expensetracker.ui.expenseList.ExpenseListActivity
 
 class NewExpenseActivity : AppCompatActivity() {
-    lateinit var binding: ActivityNewExpenseBinding
-    lateinit var dbOperation: ExpenseOperation
+    private lateinit var binding: ActivityNewExpenseBinding
+    private lateinit var dbOperation: ExpenseOperation
 
     lateinit var incomingExpense: Expense
     private var doesExpenseExists: Boolean = false
@@ -51,19 +50,23 @@ class NewExpenseActivity : AppCompatActivity() {
 
         binding.btnNewExpenseRemove.setOnClickListener {
             if (doesExpenseExists) {
-                val adb: AlertDialog.Builder = AlertDialog.Builder(this)
-                adb.setTitle(getString(R.string.Delete_Expense))
-                adb.setMessage(getString(R.string.this_will_erase_current_expense_from_database))
-                adb.setPositiveButton(
-                    getString(R.string.Continue),
-                    DialogInterface.OnClickListener { dialogInterface, i ->
+                AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.Delete_Expense))
+                    .setMessage(getString(R.string.this_will_erase_current_expense_from_database))
+                    .setPositiveButton(
+                        getString(R.string.Continue)
+                    ) { _, _ ->
                         dbOperation.deleteExpense(incomingExpense.id)
-                        Toast.makeText(this, getString(R.string.expense_deletion_success), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            getString(R.string.expense_deletion_success),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         val intentToExpenseDetail = Intent(this, ExpenseListActivity::class.java)
                         startActivity(intentToExpenseDetail)
-                    })
-                adb.setNegativeButton(getString(R.string.Cancel), null)
-                adb.show()
+                    }
+                    .setNegativeButton(getString(R.string.Cancel), null)
+                    .show()
             }
         }
     }
@@ -112,7 +115,43 @@ class NewExpenseActivity : AppCompatActivity() {
     }
 
     private fun updateExpense() {
-        TODO("Not yet implemented")
+        val tmpTitle: String = binding.etNewExpenseTitle.text.toString()
+        val tmpPeriod: String = binding.spNewExpensePeriod.selectedItem.toString()
+        val tmpPaymentDay: Int = binding.etNewExpensePaymentDay.text.toString().toIntOrNull() ?: -1
+
+        if (tmpTitle != "") {
+            if (tmpPeriod == "None") {
+                //just title
+                dbOperation.updateExpense(incomingExpense.id, Expense(tmpTitle, tmpPeriod, 0))
+                Toast.makeText(
+                    this,
+                    getString(R.string.expense_update_success),
+                    Toast.LENGTH_SHORT
+                ).show()
+                val intentToExpenseDetail = Intent(this, ExpenseListActivity::class.java)
+                startActivity(intentToExpenseDetail)
+            } else {
+                //all 3 of them are supplied
+                if (isPaymentDayValid(tmpPeriod, tmpPaymentDay)) {
+                    dbOperation.updateExpense(incomingExpense.id, Expense(tmpTitle, tmpPeriod, 0))
+                    Toast.makeText(
+                        this,
+                        getString(R.string.expense_update_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intentToExpenseDetail = Intent(this, ExpenseListActivity::class.java)
+                    startActivity(intentToExpenseDetail)
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.invalid_period_or_payment_day),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.title_cant_be_empty), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun createExpense() {
@@ -121,21 +160,33 @@ class NewExpenseActivity : AppCompatActivity() {
         val tmpPaymentDay: Int = binding.etNewExpensePaymentDay.text.toString().toIntOrNull() ?: -1
 
         if (tmpTitle != "") {
-            if (tmpPeriod.equals("None")) {
+            if (tmpPeriod == "None") {
                 //just title
                 dbOperation.addExpense(Expense(tmpTitle, tmpPeriod, 0))
-                Toast.makeText(this, getString(R.string.expense_creation_success), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.expense_creation_success),
+                    Toast.LENGTH_SHORT
+                ).show()
                 val intentToExpenseDetail = Intent(this, ExpenseListActivity::class.java)
                 startActivity(intentToExpenseDetail)
             } else {
                 //all 3 of them are supplied
                 if (isPaymentDayValid(tmpPeriod, tmpPaymentDay)) {
                     dbOperation.addExpense(Expense(tmpTitle, tmpPeriod, tmpPaymentDay))
-                    Toast.makeText(this, getString(R.string.expense_creation_success), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        getString(R.string.expense_creation_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     val intentToExpenseDetail = Intent(this, ExpenseListActivity::class.java)
                     startActivity(intentToExpenseDetail)
                 } else {
-                    Toast.makeText(this, getString(R.string.invalid_period_or_payment_day), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        getString(R.string.invalid_period_or_payment_day),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         } else {
