@@ -1,5 +1,6 @@
 package com.burakcanduzcan.expensetracker.ui.newExpense
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +20,7 @@ class NewExpenseActivity : AppCompatActivity() {
     lateinit var binding: ActivityNewExpenseBinding
     lateinit var dbOperation: ExpenseOperation
 
-    private var incomingExpense: Expense? = null
+    lateinit var incomingExpense: Expense
     private var doesExpenseExists: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +43,6 @@ class NewExpenseActivity : AppCompatActivity() {
     private fun initializeEvents() {
         binding.btnNewExpenseSave.setOnClickListener {
             if (doesExpenseExists) {
-                //TO DO
                 updateExpense()
             } else {
                 createExpense()
@@ -57,7 +57,10 @@ class NewExpenseActivity : AppCompatActivity() {
                 adb.setPositiveButton(
                     "Continue",
                     DialogInterface.OnClickListener { dialogInterface, i ->
-                        dbOperation.deleteExpense(incomingExpense!!.id)
+                        dbOperation.deleteExpense(incomingExpense.id)
+                        Toast.makeText(this, getString(R.string.expense_deletion_success), Toast.LENGTH_SHORT).show()
+                        val intentToExpenseDetail = Intent(this, ExpenseListActivity::class.java)
+                        startActivity(intentToExpenseDetail)
                     })
                 adb.setNegativeButton("Cancel", null)
                 adb.show()
@@ -65,13 +68,14 @@ class NewExpenseActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("Range")
     private fun setDefaults() {
         dbOperation = ExpenseOperation(this)
+        val incomingId: Int = intent.getIntExtra("expenseId", -1)
 
-        incomingExpense = intent.getSerializableExtra("expense") as Expense?
-        doesExpenseExists = incomingExpense != null
-
+        doesExpenseExists = incomingId != -1
         if (doesExpenseExists) {
+            incomingExpense = dbOperation.getExpenseFromId(incomingId)
             updateViewsForUpdate()
         } else {
             binding.btnNewExpenseRemove.visibility = View.INVISIBLE
@@ -80,8 +84,8 @@ class NewExpenseActivity : AppCompatActivity() {
 
     private fun updateViewsForUpdate() {
         binding.btnNewExpenseRemove.visibility = View.VISIBLE
-        binding.etNewExpenseTitle.setText(incomingExpense!!.title)
-        when (incomingExpense!!.period) {
+        binding.etNewExpenseTitle.setText(incomingExpense.title)
+        when (incomingExpense.period) {
             "Yearly" -> binding.spNewExpensePeriod.setSelection(1)
             "Monthly" -> binding.spNewExpensePeriod.setSelection(2)
             "Weekly" -> binding.spNewExpensePeriod.setSelection(3)
@@ -89,7 +93,7 @@ class NewExpenseActivity : AppCompatActivity() {
                 binding.spNewExpensePeriod.setSelection(0)
             }
         }
-        binding.etNewExpensePaymentDay.setText(incomingExpense!!.paymentDay.toString())
+        binding.etNewExpensePaymentDay.setText(incomingExpense.paymentDay.toString())
     }
 
     private fun isPaymentDayValid(period: String, paymentDay: Int): Boolean {
@@ -107,8 +111,6 @@ class NewExpenseActivity : AppCompatActivity() {
         return false
     }
 
-
-    //EKSİK
     private fun updateExpense() {
         TODO("Not yet implemented")
     }

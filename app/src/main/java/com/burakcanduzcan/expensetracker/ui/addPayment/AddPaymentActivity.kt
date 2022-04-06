@@ -13,9 +13,10 @@ import com.burakcanduzcan.expensetracker.model.ExpensePayment
 import java.util.*
 
 class AddPaymentActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAddPaymentBinding
+    lateinit var binding: ActivityAddPaymentBinding
+    lateinit var dbOperation: ExpenseOperation
+
     lateinit var incomingExpense: Expense
-    private lateinit var dbOperation: ExpenseOperation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,8 @@ class AddPaymentActivity : AppCompatActivity() {
     private fun initializeViews() {
         binding = ActivityAddPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.dpPaymentDate.maxDate = Calendar.getInstance().timeInMillis
+        binding.tvCurrentDate.text = "${getString(R.string.Selected_date_is)} ${getProperDateText()}"
     }
 
     private fun initializeEvents() {
@@ -49,7 +52,6 @@ class AddPaymentActivity : AppCompatActivity() {
                 ))
                 Toast.makeText(this, getString(R.string.payment_addition_success), Toast.LENGTH_SHORT).show()
                 binding.etAddPaymentAmount.setText("")
-                dbOperation.open()
             } else {
                 Toast.makeText(this, getString(R.string.please_enter_amount), Toast.LENGTH_SHORT).show()
             }
@@ -59,10 +61,8 @@ class AddPaymentActivity : AppCompatActivity() {
     @SuppressLint("Range")
     private fun setDefaults() {
         dbOperation = ExpenseOperation(this)
-        val incomingTitle: Int = intent.getIntExtra("expenseId", -1)
-        incomingExpense = dbOperation.getExpenseFromId(incomingTitle)
-        binding.dpPaymentDate.maxDate = Calendar.getInstance().timeInMillis
-        binding.tvCurrentDate.setText("${getString(R.string.Selected_date_is)} ${getProperDateText()}")
+        val incomingId: Int = intent.getIntExtra("expenseId", -1)
+        incomingExpense = dbOperation.getExpenseFromId(incomingId)
     }
 
     private fun getProperDateText(): String {
@@ -72,7 +72,7 @@ class AddPaymentActivity : AppCompatActivity() {
         if (tmpDay in 1..9)
             returnString = returnString + "0" + tmpDay.toString() + "."
         else
-            returnString = returnString + tmpDay.toString() + "."
+            returnString = "$returnString$tmpDay."
 
         val tmpMonth: Int = binding.dpPaymentDate.month
         if (tmpMonth in 1..9)
