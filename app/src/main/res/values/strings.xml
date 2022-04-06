@@ -6,7 +6,8 @@
     <string name="expected_to_be_paid">Expected to be paid</string>
     <string name="on">on</string>
     <string name="period">Period</string>
-    <string name="day">Day</string>
+    <string name="Day">Day</string>
+    <string name="day">day</string>
     <string name="yearly">yearly</string>
     <string name="monthly">monthly</string>
     <string name="weekly">weekly</string>
@@ -22,4 +23,6 @@
     <string name="invalid_period_or_payment_day">Invalid period or payment day\nPlease enter proper values</string>
     <string name="new_expense_period_info">For yearly period, use 1–12 as months\nFor monthly period, use 1–31 as days\nFor weekly period, use 1-7 as days of the week.</string>
     <string name="creation_success">Successfully created new expense!</string>
+    <string name="month">month</string>
+    <string name="day_of_the_week">day of the week</string>
 </resources>

@@ -42,6 +42,7 @@ class NewExpenseActivity : AppCompatActivity() {
     private fun initializeEvents() {
         binding.btnNewExpenseSave.setOnClickListener {
             if (doesExpenseExists) {
+                //TO DO
                 updateExpense()
             } else {
                 createExpense()
@@ -88,7 +89,7 @@ class NewExpenseActivity : AppCompatActivity() {
                 binding.spNewExpensePeriod.setSelection(0)
             }
         }
-        binding.etNewExpensePaymentDay.setText(incomingExpense!!.paymentDay as Int)
+        binding.etNewExpensePaymentDay.setText(incomingExpense!!.paymentDay.toString())
     }
 
     private fun isPaymentDayValid(period: String, paymentDay: Int): Boolean {

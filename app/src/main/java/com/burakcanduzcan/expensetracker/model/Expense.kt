@@ -8,8 +8,8 @@ var tableNameExpense = "Expense"
 
 class Expense(var title: String) : Serializable{
     var id by Delegates.notNull<Int>()
-    var period: String? = null
-    var paymentDay: Int? = null
+    var period: String = "None"
+    var paymentDay: Int = 0
 
     constructor(title: String, period: String, paymentDay: Int) : this(title) {
         this.period = period

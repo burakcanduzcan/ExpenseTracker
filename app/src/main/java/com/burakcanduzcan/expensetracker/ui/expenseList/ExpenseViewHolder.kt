@@ -40,10 +40,28 @@ class ExpenseViewHolder(
         }
 
         if (e.paymentDay != 0) {
-            val strBuilder = context.getString(R.string.on_every) + " " + e.paymentDay.toString()
+            var strBuilder = context.getString(R.string.on_every) + " " + e.paymentDay.toString()
+            strBuilder += calculateSuffix(e.paymentDay) + " "
+            when (e.period) {
+                "Yearly" -> strBuilder += context.getString(R.string.month)
+                "Monthly" -> strBuilder += context.getString(R.string.day)
+                "Weekly" -> strBuilder += context.getString(R.string.day_of_the_week)
+                else -> {
+                    strBuilder += "ERR0R"
+                }
+            }
             binding.tvPaymentDay.text = strBuilder
         } else {
             binding.tvPaymentDay.text = ""
         }
+    }
+
+    private fun calculateSuffix(input: Int): String {
+        when (input % 10) {
+            1 -> return "st"
+            2 -> return "nd"
+            3 -> return "rd"
+        }
+        return "th"
     }
 }
