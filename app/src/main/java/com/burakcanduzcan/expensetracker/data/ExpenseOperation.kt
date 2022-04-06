@@ -86,19 +86,24 @@ class ExpenseOperation(context: Context) {
 
     fun deleteExpense(id: Int) {
         open()
-        db!!.delete(tableNameExpense, "Id = ?", arrayOf(id.toString()))
+        db!!.delete(tableNameExpense, "id = ?", arrayOf(id.toString()))
         close()
     }
 
     fun deleteExpensePayment(id: Int) {
         open()
-        db!!.delete(tableNameExpensePayment, "Id = ?", arrayOf(id.toString()))
+        db!!.delete(tableNameExpensePayment, "id = ?", arrayOf(id.toString()))
         close()
     }
 
     fun rawQueryGetAllFromTable(table: String): Cursor {
         val query = "SELECT * FROM $table"
         return db!!.rawQuery(query, null)
+    }
+
+    fun rawQueryGetExpensePaymentsFromTitle(title: String): Cursor {
+        val query = "SELECT * FROM $tableNameExpensePayment WHERE title = ?"
+        return db!!.rawQuery(query, arrayOf(title))
     }
 
     fun getExpenseFromTitle(title: String): Cursor {
@@ -135,6 +140,26 @@ class ExpenseOperation(context: Context) {
                         c.getString(c.getColumnIndex("title")),
                         c.getString(c.getColumnIndex("period")),
                         c.getInt(3)
+                    ).apply {
+                        id = c.getInt(0)
+                    }
+                )
+            } while (c.moveToNext())
+        }
+        close()
+    }
+
+    @SuppressLint("Range")
+    fun fillListWithExpensePayments(title: String, inputList: ArrayList<ExpensePayment>) {
+        open()
+        val c: Cursor = rawQueryGetExpensePaymentsFromTitle(title)
+        if (c.moveToFirst()) {
+            do {
+                inputList.add(
+                    ExpensePayment(
+                        c.getString(c.getColumnIndex("title")),
+                        c.getFloat(2),
+                        c.getString(c.getColumnIndex("date"))
                     ).apply {
                         id = c.getInt(0)
                     }

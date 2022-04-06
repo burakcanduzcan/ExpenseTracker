@@ -52,17 +52,17 @@ class NewExpenseActivity : AppCompatActivity() {
         binding.btnNewExpenseRemove.setOnClickListener {
             if (doesExpenseExists) {
                 val adb: AlertDialog.Builder = AlertDialog.Builder(this)
-                adb.setTitle("Delete Expense")
-                adb.setMessage("This will erase current expense from database")
+                adb.setTitle(getString(R.string.Delete_Expense))
+                adb.setMessage(getString(R.string.this_will_erase_current_expense_from_database))
                 adb.setPositiveButton(
-                    "Continue",
+                    getString(R.string.Continue),
                     DialogInterface.OnClickListener { dialogInterface, i ->
                         dbOperation.deleteExpense(incomingExpense.id)
                         Toast.makeText(this, getString(R.string.expense_deletion_success), Toast.LENGTH_SHORT).show()
                         val intentToExpenseDetail = Intent(this, ExpenseListActivity::class.java)
                         startActivity(intentToExpenseDetail)
                     })
-                adb.setNegativeButton("Cancel", null)
+                adb.setNegativeButton(getString(R.string.Cancel), null)
                 adb.show()
             }
         }

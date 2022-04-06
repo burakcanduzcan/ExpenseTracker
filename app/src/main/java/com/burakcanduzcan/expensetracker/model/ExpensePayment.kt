@@ -2,7 +2,7 @@ package com.burakcanduzcan.expensetracker.model
 
 import kotlin.properties.Delegates
 
-var listExpensesAndPayment = ArrayList<ExpensePayment>()
+var listExpensePayment = ArrayList<ExpensePayment>()
 var tableNameExpensePayment = "ExpensePayment"
 
 class ExpensePayment(

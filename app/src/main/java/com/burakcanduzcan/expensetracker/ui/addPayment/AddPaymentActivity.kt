@@ -1,6 +1,7 @@
 package com.burakcanduzcan.expensetracker.ui.addPayment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import com.burakcanduzcan.expensetracker.data.ExpenseOperation
 import com.burakcanduzcan.expensetracker.databinding.ActivityAddPaymentBinding
 import com.burakcanduzcan.expensetracker.model.Expense
 import com.burakcanduzcan.expensetracker.model.ExpensePayment
+import com.burakcanduzcan.expensetracker.ui.expenseList.ExpenseListActivity
 import java.util.*
 
 class AddPaymentActivity : AppCompatActivity() {
@@ -50,8 +52,9 @@ class AddPaymentActivity : AppCompatActivity() {
                     binding.etAddPaymentAmount.text.toString().toFloat(),
                     getProperDateText()
                 ))
-                Toast.makeText(this, getString(R.string.payment_addition_success), Toast.LENGTH_SHORT).show()
-                binding.etAddPaymentAmount.setText("")
+                Toast.makeText(this, getString(R.string.payment_addition_success_to)+" "+incomingExpense.title, Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, ExpenseListActivity::class.java)
+                startActivity(intent)
             } else {
                 Toast.makeText(this, getString(R.string.please_enter_amount), Toast.LENGTH_SHORT).show()
             }
