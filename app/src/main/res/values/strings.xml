@@ -4,7 +4,6 @@
     <string name="title">Title</string>
     <string name="add_payment">Add Payment</string>
     <string name="expected_to_be_paid">Expected to be paid</string>
-    <string name="on">on</string>
     <string name="period">Period</string>
     <string name="Day">Day</string>
     <string name="day">day</string>
@@ -17,11 +16,11 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="title_cant_be_empty">Title field cannot be left empty</string>
-    <string name="please_select_a_period">Please select a period, \"None\" if doesn\'t exist.</string>
+    <string name="please_select_a_period">Please select a period, \"None\" if does not exist.</string>
     <string name="please_enter_a_payment_day">Please enter a payment day</string>
     <string name="expense_added_successfully">Expense added successfully!</string>
     <string name="invalid_period_or_payment_day">Invalid period or payment day\nPlease enter proper values</string>
-    <string name="new_expense_period_info">For yearly period, use 1–12 as months\nFor monthly period, use 1–31 as days\nFor weekly period, use 1-7 as days of the week.</string>
+    <string name="new_expense_period_info">For yearly period, use 1&#8211;12 as months For monthly period, use 1&#8211;31 as days For weekly period, use 1&#8211;7 as days of the week.</string>
     <string name="expense_creation_success">Successfully created new expense!</string>
     <string name="expense_update_success">Successfully updated the expense!</string>
     <string name="payment_addition_success_to">Successfully added new payment to</string>
@@ -41,4 +40,8 @@
     <string name="Cancel">Cancel</string>
     <string name="Delete_Expense_Payment">Delete Expense Payment</string>
     <string name="this_will_erase_selected_expense_payment_from_database">This will erase selected expense payment from database</string>
+    <string name="st">st</string>
+    <string name="nd">nd</string>
+    <string name="rd">rd</string>
+    <string name="th">th</string>
 </resources>

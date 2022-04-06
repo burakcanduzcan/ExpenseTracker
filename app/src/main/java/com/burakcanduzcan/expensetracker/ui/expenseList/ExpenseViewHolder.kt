@@ -8,6 +8,7 @@ import com.burakcanduzcan.expensetracker.model.Expense
 import com.burakcanduzcan.expensetracker.databinding.RvcExpenseBinding
 
 class ExpenseViewHolder(
+    private val context: Context,
     private val binding: RvcExpenseBinding,
     var addPaymentClick: (position: Int) -> Unit,
     var itemClick: (position: Int) -> Unit
@@ -58,10 +59,10 @@ class ExpenseViewHolder(
 
     private fun calculateSuffix(input: Int): String {
         when (input % 10) {
-            1 -> return "st"
-            2 -> return "nd"
-            3 -> return "rd"
+            1 -> return context.getString(R.string.st)
+            2 -> return context.getString(R.string.nd)
+            3 -> return context.getString(R.string.rd)
         }
-        return "th"
+        return context.getString(R.string.th)
     }
 }

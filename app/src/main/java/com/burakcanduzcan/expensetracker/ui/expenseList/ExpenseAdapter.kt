@@ -16,7 +16,7 @@ class ExpenseAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
         val from = LayoutInflater.from(context)
         val binding = RvcExpenseBinding.inflate(from, parent, false)
-        return ExpenseViewHolder(binding, addPaymentClick, itemClick)
+        return ExpenseViewHolder(context, binding, addPaymentClick, itemClick)
     }
 
     override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {

@@ -122,7 +122,7 @@ class NewExpenseActivity : AppCompatActivity() {
         if (tmpTitle != "") {
             if (tmpPeriod == "None") {
                 //just title
-                dbOperation.updateExpense(incomingExpense.id, Expense(tmpTitle, tmpPeriod, 0))
+                dbOperation.updateExpense(incomingExpense.id, Expense(tmpTitle, "None", 0))
                 Toast.makeText(
                     this,
                     getString(R.string.expense_update_success),
@@ -133,7 +133,7 @@ class NewExpenseActivity : AppCompatActivity() {
             } else {
                 //all 3 of them are supplied
                 if (isPaymentDayValid(tmpPeriod, tmpPaymentDay)) {
-                    dbOperation.updateExpense(incomingExpense.id, Expense(tmpTitle, tmpPeriod, 0))
+                    dbOperation.updateExpense(incomingExpense.id, Expense(tmpTitle, tmpPeriod, tmpPaymentDay))
                     Toast.makeText(
                         this,
                         getString(R.string.expense_update_success),
