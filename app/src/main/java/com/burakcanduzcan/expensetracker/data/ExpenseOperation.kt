@@ -96,20 +96,38 @@ class ExpenseOperation(context: Context) {
         close()
     }
 
-    fun getAllFromTable(table: String): Cursor {
+    fun rawQueryGetAllFromTable(table: String): Cursor {
         val query = "SELECT * FROM $table"
         return db!!.rawQuery(query, null)
     }
 
-    fun getExpense(title: String): Cursor {
+    fun getExpenseFromTitle(title: String): Cursor {
         val query = "SELECT * FROM $tableNameExpense WHERE title = ?"
         return db!!.rawQuery(query, arrayOf(title))
     }
 
     @SuppressLint("Range")
+    fun getExpenseFromId(inputId: Int): Expense {
+        open()
+        val query = "SELECT * FROM $tableNameExpense WHERE id = ?"
+        val c: Cursor = db!!.rawQuery(query, arrayOf(inputId.toString()))
+        c.moveToFirst()
+        val returnExpense: Expense = Expense(
+            c.getString(c.getColumnIndex("title")),
+            c.getString(c.getColumnIndex("period")),
+            c.getInt(3)
+        ).apply {
+            id = c.getInt(0)
+        }
+        c.close()
+        close()
+        return returnExpense
+    }
+
+    @SuppressLint("Range")
     fun fillListWithExpenses(inputList: ArrayList<Expense>) {
         open()
-        val c: Cursor = getAllFromTable(tableNameExpense)
+        val c: Cursor = rawQueryGetAllFromTable(tableNameExpense)
         if (c.moveToFirst()) {
             do {
                 inputList.add(

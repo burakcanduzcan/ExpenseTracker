@@ -13,7 +13,7 @@
     <string name="weekly">weekly</string>
     <string name="on_every">on every</string>
     <string name="enter_title">Enter title</string>
-    <string name="enter_payment_day">Enter payment day</string>
+    <string name="enter_payment_time">Enter payment time</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="title_cant_be_empty">Title field cannot be left empty</string>
@@ -22,7 +22,11 @@
     <string name="expense_added_successfully">Expense added successfully!</string>
     <string name="invalid_period_or_payment_day">Invalid period or payment day\nPlease enter proper values</string>
     <string name="new_expense_period_info">For yearly period, use 1–12 as months\nFor monthly period, use 1–31 as days\nFor weekly period, use 1-7 as days of the week.</string>
-    <string name="creation_success">Successfully created new expense!</string>
+    <string name="expense_creation_success">Successfully created new expense!</string>
+    <string name="payment_addition_success">Successfully added new payment!</string>
     <string name="month">month</string>
     <string name="day_of_the_week">day of the week</string>
+    <string name="enter_amount">Enter amount</string>
+    <string name="please_enter_amount">Please enter amount</string>
+    <string name="Selected_date_is">Selected date is</string>
 </resources>

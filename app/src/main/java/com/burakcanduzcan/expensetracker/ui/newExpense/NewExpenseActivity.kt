@@ -122,14 +122,14 @@ class NewExpenseActivity : AppCompatActivity() {
             if (tmpPeriod.equals("None")) {
                 //just title
                 dbOperation.addExpense(Expense(tmpTitle, tmpPeriod, 0))
-                Toast.makeText(this, getString(R.string.creation_success), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.expense_creation_success), Toast.LENGTH_SHORT).show()
                 val intentToExpenseDetail = Intent(this, ExpenseListActivity::class.java)
                 startActivity(intentToExpenseDetail)
             } else {
                 //all 3 of them are supplied
                 if (isPaymentDayValid(tmpPeriod, tmpPaymentDay)) {
                     dbOperation.addExpense(Expense(tmpTitle, tmpPeriod, tmpPaymentDay))
-                    Toast.makeText(this, getString(R.string.creation_success), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.expense_creation_success), Toast.LENGTH_SHORT).show()
                     val intentToExpenseDetail = Intent(this, ExpenseListActivity::class.java)
                     startActivity(intentToExpenseDetail)
                 } else {
